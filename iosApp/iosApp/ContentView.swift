@@ -4,9 +4,7 @@ import shared
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        /* CGRect screenRect = [[UIScreen mainScreen] bounds];
-        CGFloat screenWidth = screenRect.size.width;
-        CGFloat screenHeight = screenRect.size.height; */
+        // get screen width and height, to revolve balls in middle of the screen
         let screen = UIScreen.main.bounds
         let screenWidth = Int32(screen.size.width)
         let screenHeight = Int32(screen.size.height)

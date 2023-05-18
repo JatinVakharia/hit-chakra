@@ -12,7 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import mu.KotlinLogging
-import utils.getScreenHeightPx
 import kotlin.math.PI
 
 private const val TAG = "Balls Revolving"
