@@ -14,7 +14,6 @@ import kotlinx.datetime.Clock
 import mu.KotlinLogging
 import kotlin.math.PI
 
-private const val TAG = "Balls Revolving"
 private val logger = KotlinLogging.logger {}
 val srcDestRingStroke = 5.dp
 val srcDestRingSize = 35.dp
@@ -260,10 +259,6 @@ fun fireTheRoller(
             isCollide = true
             var time: Long = overlapList.first() - currentTime
             logger.debug { "Boom Boom : count : $index"}
-            /*Handler(Looper.getMainLooper()).postDelayed({
-                // Stop all balls and roller as there is a collision
-                stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
-            }, time)*/
             stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
             break
         }
@@ -290,10 +285,6 @@ fun fireTheRoller(
             if (overlapList.isNotEmpty()) {
                 var time: Long = overlapList.first() - currentTime
                 logger.debug { "360 Boom Boom : count : $index"}
-                /*Handler(Looper.getMainLooper()).postDelayed({
-                    // Stop all balls and roller as there is a collision
-                    stopAllAnimations(angles, rollerStopped, gameState, State.Loss)
-                }, time)*/
                 stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
                 break
             }

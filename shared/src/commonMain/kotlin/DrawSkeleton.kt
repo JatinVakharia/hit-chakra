@@ -193,9 +193,5 @@ fun drawStartButton(
             buttonEnabled.value = true
             firstRoundCompleted.value = true
         }
-        /*Handler(Looper.getMainLooper()).postDelayed({
-            buttonEnabled.value = true
-            firstRoundCompleted.value = true
-        }, (level.ballAnimationDuration.maxOrNull() ?: 0).toLong())*/
     }
 }
