@@ -3,7 +3,7 @@
 
 > **Note**
 > Compose Multiplatform for iOS is in Alpha. It may change incompatibly and require manual migration in the future.
-> It contains maximum common code around 98%, so the impact should not be much, though.
+> This project contains maximum common code around 98%, so the impact should not be much, though.
 
 In this game, user has to score some points in each level. In every level user will get limited attempts to score points.
 Game has one roller and many balls. Points are scored by hitting roller to a ball. Every ball carry some points, 
