@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import mu.KotlinLogging
 import theme.HitChakraTheme
+import ui.PointsAnimation
 import utils.KMMPreference
 
 val levelList = getLevelObjects()
@@ -79,6 +80,8 @@ private fun observeGameState(
                 actionFunction = { tryAgainSameLevel(gameBehaviour) },
                 ::exitApp
             )
+        // Todo remove : temp testing
+        PointsAnimation("0")
     } else if (gameState.value == State.Win) {
         logger.debug { "You Win" }
         if (dialogState.value)
@@ -88,6 +91,8 @@ private fun observeGameState(
                 actionFunction = { moveToNextLevel(gameBehaviour) },
                 ::exitApp
             )
+        // Todo remove : temp testing
+        PointsAnimation("100")
     }
 }
 

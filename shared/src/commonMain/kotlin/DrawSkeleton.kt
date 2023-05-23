@@ -4,19 +4,105 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
+
+@Composable
+fun drawBallsWithPoints(level: Level) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(vertical = 10.dp)
+    ) {
+        for (index in 0 until level.trackCount) {
+            Spacer(modifier = Modifier.width(10.dp))
+            Box(
+                modifier = Modifier
+                    .size(level.ballSizeInDp)
+                    .background(
+                        color = level.colorArray[index],
+                        shape = CircleShape
+                    )
+            ) {
+                Text(
+                    text = "10",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+        }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun drawHearts(level: Level) {
+    val infiniteTransition = rememberInfiniteTransition()
+    val pulsate by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.1f,
+        animationSpec = infiniteRepeatable(tween(400), RepeatMode.Reverse)
+    )
+
+    Row(
+        verticalAlignment = Alignment.Bottom,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(all = 10.dp)
+    ) {
+        for (index in 0 until level.livesArray.size) {
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource("heart.xml"),
+                contentDescription = null,
+                tint = if (level.livesArray[index]) Color.Red else Color.Gray,
+                modifier = Modifier
+                    .scale(if (level.livesArray[index]) pulsate else 1f)
+                    .size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+    }
+    Row(
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.Bottom,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(all = 20.dp)
+    ) {
+        Text(
+            text = "Req : #${level.pointsReq}",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.White
+        )
+    }
+}
 
 @Composable
 fun drawTracks(index: Int, screenCenterX: Int, screenCenterY: Int, level: Level) {
@@ -164,14 +250,16 @@ fun drawStartButton(
     rollerStopped: MutableState<Boolean>,
     gameState: MutableState<State>,
     angles: List<Animatable<Float, AnimationVector1D>>
-){
+) {
     var buttonEnabled = remember { mutableStateOf(false) }
     var firstRoundCompleted = remember { mutableStateOf(false) }
-    Column(verticalArrangement = Arrangement.Bottom,
+    Column(
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 8.dp)) {
+            .padding(all = 8.dp)
+    ) {
         Button(
             enabled = buttonEnabled.value,
             onClick = {
@@ -186,7 +274,7 @@ fun drawStartButton(
     }
 
     // Condition to execute handler only once
-    if(!firstRoundCompleted.value) {
+    if (!firstRoundCompleted.value) {
         // Enable start button after one revolution of ball (ball which has longest revolution time)
         GlobalScope.launch() {
             delay((level.ballAnimationDuration.maxOrNull() ?: 0).toLong())

@@ -66,25 +66,25 @@ fun BallsRevolving(
     screenWidthDp: Int,
     screenHeightDp: Int
 ) {
-    logger.debug { "Level : ${level.level}"}
+    logger.debug { "Level : ${level.level}" }
     // initiate all data
     initiateData(level.trackCount)
-    logger.debug { "screenWidthDp : ${screenWidthDp}"}
-    logger.debug { "screenHeightDp : ${screenHeightDp}"}
+    logger.debug { "screenWidthDp : ${screenWidthDp}" }
+    logger.debug { "screenHeightDp : ${screenHeightDp}" }
     // mobile device density, used to convert dp to pixel
     val density = LocalDensity.current
 
     val screenWidthPx = with(density) { screenWidthDp.dp.roundToPx() }
     val screenHeightPx = with(density) { screenHeightDp.dp.roundToPx() }
-    logger.debug { "screenWidthPx : ${screenWidthPx}"}
-    logger.debug { "screenHeightPx : ${screenHeightPx}"}
+    logger.debug { "screenWidthPx : ${screenWidthPx}" }
+    logger.debug { "screenHeightPx : ${screenHeightPx}" }
     // center co-ordinates of screen
     val screenCenterX = screenWidthPx / 2
     val screenCenterY = screenHeightPx / 2
 
     // Source ring position
     val sourceX = screenCenterX
-    val sourceY = 110
+    val sourceY = 210
     // Destination ring position
     val destX = screenCenterX
     val destY = if (level.crossHalf) screenCenterY else (screenCenterY + (screenCenterY - 300))
@@ -140,6 +140,12 @@ fun BallsRevolving(
             drawRevolvingBalls(index, angle, screenCenterX, screenCenterY, ballSizeInPx, level)
         }
 
+        // draw balls with points
+        drawBallsWithPoints(level)
+
+        // draw lives
+        drawHearts(level)
+
         // Draw destination ring to desired co-ordinates
         drawSourceRing(sourceX, sourceY, ringSizeInPx, srcDestRingSize, srcDestRingStroke)
 
@@ -158,11 +164,13 @@ fun BallsRevolving(
             angles
         )
 
-        drawStartButton(level = level,
+        drawStartButton(
+            level = level,
             rollerStarted,
             rollerStopped,
             gameState,
-            angles)
+            angles
+        )
     }
 
     // Get co-ordinates, where roller path and track intersect for angle 180
@@ -216,7 +224,7 @@ fun calculateAngleCoveredForEachTrackByRoller(
         // Here angle 180 is kept constant, as our target is at 180 or 360.
         // For 360, we just reverse the existing list
         val angleMargin = (rollerSizeInPx / (trackDiameterInPx / 2)) * (180 / PI.toFloat())
-        logger.debug { "Count = $count :: angleMargin = $angleMargin"}
+        logger.debug { "Count = $count :: angleMargin = $angleMargin" }
         angleCoveredOfTrackByRoller.add(angleMargin)
         count++
     }
@@ -242,13 +250,13 @@ fun fireTheRoller(
         val timeWhenRollerLeavesTrack = timeWhenRollerTouchTrack + rollerTimeToCrossTrack
         val intersectTime = intersect180TimestampList[index]
 
-        logger.debug { "Count : $index"}
-        logger.debug { "rollerTimeToCrossTrack : $rollerTimeToCrossTrack"}
-        logger.debug { "timeRequiredList[index] : " + timeRequiredList[index]}
-        logger.debug { "timeWhenRollerTouchTrack : $timeWhenRollerTouchTrack"}
-        logger.debug { "timeWhenRollerLeavesTrac : $timeWhenRollerLeavesTrack"}
-        logger.debug { "intersectTime Range : " + intersectTime[0] + " - " + intersectTime[1]}
-        logger.debug { "Margin : " + (intersectTime[0] - intersectTime[1])}
+        logger.debug { "Count : $index" }
+        logger.debug { "rollerTimeToCrossTrack : $rollerTimeToCrossTrack" }
+        logger.debug { "timeRequiredList[index] : " + timeRequiredList[index] }
+        logger.debug { "timeWhenRollerTouchTrack : $timeWhenRollerTouchTrack" }
+        logger.debug { "timeWhenRollerLeavesTrac : $timeWhenRollerLeavesTrack" }
+        logger.debug { "intersectTime Range : " + intersectTime[0] + " - " + intersectTime[1] }
+        logger.debug { "Margin : " + (intersectTime[0] - intersectTime[1]) }
 
         // Find the overlapping time range of roller and ball over that particular track
         // If there is overlap, stop all the balls and roller on the first element of overlap
@@ -258,7 +266,7 @@ fun fireTheRoller(
         if (overlapList.isNotEmpty()) {
             isCollide = true
             var time: Long = overlapList.first() - currentTime
-            logger.debug { "Boom Boom : count : $index"}
+            logger.debug { "Boom Boom : count : $index" }
             stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
             break
         }
@@ -271,11 +279,11 @@ fun fireTheRoller(
             val timeWhenRollerLeavesTrack = timeWhenRollerTouchTrack + rollerTimeToCrossTrack
             val intersectTime = intersect360TimestampList[index]
 
-            logger.debug { "360 Count : $index"}
-            logger.debug { "360 timeWhenRollerTouchTrack : $timeWhenRollerTouchTrack"}
-            logger.debug { "360 timeWhenRollerLeavesTrac : $timeWhenRollerLeavesTrack"}
-            logger.debug { "360 intersectTime Range : " + intersectTime[0] + " - " + intersectTime[1]}
-            logger.debug { "360 Margin : " + (intersectTime[0] - intersectTime[1])}
+            logger.debug { "360 Count : $index" }
+            logger.debug { "360 timeWhenRollerTouchTrack : $timeWhenRollerTouchTrack" }
+            logger.debug { "360 timeWhenRollerLeavesTrac : $timeWhenRollerLeavesTrack" }
+            logger.debug { "360 intersectTime Range : " + intersectTime[0] + " - " + intersectTime[1] }
+            logger.debug { "360 Margin : " + (intersectTime[0] - intersectTime[1]) }
 
             // Find the overlapping time range of roller and ball over that particular track
             // If there is overlap, stop all the balls and roller on the first element of overlap
@@ -284,7 +292,7 @@ fun fireTheRoller(
             val overlapList = rollerRange.intersect(ballRange)
             if (overlapList.isNotEmpty()) {
                 var time: Long = overlapList.first() - currentTime
-                logger.debug { "360 Boom Boom : count : $index"}
+                logger.debug { "360 Boom Boom : count : $index" }
                 stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
                 break
             }
@@ -321,7 +329,8 @@ fun generateIntersectTimestampList(index: Int, angle: Float, level: Level) {
     val angleMargin = angleCoveredOfTrackByRoller[index] / 2
     if (xIntersectList.isNotEmpty() && angle in (180f - angleMargin)..(180f + angleMargin)) {
 //        val intersectTime = System.currentTimeMillis() + level.ballAnimationDuration[index]
-        val intersectTime = Clock.System.now().toEpochMilliseconds() + level.ballAnimationDuration[index]
+        val intersectTime =
+            Clock.System.now().toEpochMilliseconds() + level.ballAnimationDuration[index]
         if (intersect180TimestampList.size > index) {
             val prevList = intersect180TimestampList[index]
             if (intersectTime - prevList[0] > 1000) {
@@ -342,7 +351,8 @@ fun generateIntersectTimestampList(index: Int, angle: Float, level: Level) {
         (angle in (360f - angleMargin)..(360f) || angle in (0f)..(0f + angleMargin))
     ) {
 //        val intersectTime = System.currentTimeMillis() + level.ballAnimationDuration[index]
-        val intersectTime = Clock.System.now().toEpochMilliseconds() + level.ballAnimationDuration[index]
+        val intersectTime =
+            Clock.System.now().toEpochMilliseconds() + level.ballAnimationDuration[index]
         if (intersect360TimestampList.size > index) {
             val prevList = intersect360TimestampList[index]
             if (intersectTime - prevList[0] > 1000) {

@@ -19,7 +19,9 @@ data class Level(
     val ballSizeInDp: Dp,
     val revolvingBallsRadiusArray: List<Int>,
     val trackDiameter: List<Int>,
-    val colorArray: List<Color>
+    val colorArray: List<Color>,
+    val livesArray: List<Boolean>,
+    val pointsReq : Int
 )
 
 fun getLevelObjects(): List<Level> {
@@ -33,7 +35,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, false),
+            50
         )
     )
 
@@ -45,7 +49,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            60
         )
     )
 
@@ -57,7 +63,9 @@ fun getLevelObjects(): List<Level> {
             false,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            70
         )
     )
 
@@ -69,7 +77,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -81,7 +91,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -93,7 +105,9 @@ fun getLevelObjects(): List<Level> {
             false,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -105,7 +119,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -117,7 +133,9 @@ fun getLevelObjects(): List<Level> {
             true,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -129,7 +147,9 @@ fun getLevelObjects(): List<Level> {
             false,
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
-            colorArrayFor4Tracks
+            colorArrayFor4Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -141,7 +161,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -153,7 +175,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -165,7 +189,9 @@ fun getLevelObjects(): List<Level> {
             false,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -177,7 +203,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -189,7 +217,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -201,7 +231,9 @@ fun getLevelObjects(): List<Level> {
             false,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -213,7 +245,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -225,7 +259,9 @@ fun getLevelObjects(): List<Level> {
             true,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -237,7 +273,9 @@ fun getLevelObjects(): List<Level> {
             false,
             3.dp, 12.dp,
             revolvingBallsRadiusArrayFor8Tracks, trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -253,7 +291,9 @@ fun getLevelObjects(): List<Level> {
             12.dp,
             revolvingBallsRadiusArrayFor8Tracks,
             trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -269,7 +309,9 @@ fun getLevelObjects(): List<Level> {
             12.dp,
             revolvingBallsRadiusArrayFor8Tracks,
             trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
@@ -285,7 +327,9 @@ fun getLevelObjects(): List<Level> {
             12.dp,
             revolvingBallsRadiusArrayFor8Tracks,
             trackDiameterFor8Tracks,
-            colorArrayFor8Tracks
+            colorArrayFor8Tracks,
+            listOf(true, true, true),
+            50
         )
     )
 
