@@ -89,6 +89,7 @@ fun drawHearts(level: Level) {
             Spacer(modifier = Modifier.width(5.dp))
         }
     }
+    val requiredPoints = if(level.pointsReq < 0) 0 else level.pointsReq
     Row(
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.Bottom,
@@ -98,7 +99,7 @@ fun drawHearts(level: Level) {
             .padding(all = 20.dp)
     ) {
         Text(
-            text = "Req : #${level.pointsReq}",
+            text = "Req : #${requiredPoints}",
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = Color.White

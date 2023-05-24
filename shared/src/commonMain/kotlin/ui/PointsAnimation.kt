@@ -1,8 +1,10 @@
 package ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import theme.darkYellow
 
 @Composable
 fun PointsAnimation(points: String) {
@@ -29,11 +32,11 @@ fun PointsAnimation(points: String) {
     val ringOpacity = remember {
         Animatable(1f)
     }
-    val imageScale = remember {
+    val textScale = remember {
         Animatable(1f)
     }
 
-    val imageRotation = remember {
+    val textRotation = remember {
         Animatable(0f)
     }
 
@@ -51,116 +54,113 @@ fun PointsAnimation(points: String) {
 
     val coroutineScope = rememberCoroutineScope()
 
-    Surface(
-//        modifier
-//            .background(MaterialTheme.colors.onBackground)
+    var show by remember {
+        mutableStateOf(true)
+    }
+
+    AnimatedVisibility(
+        visible = show,
+        enter = fadeIn(),
+        exit = fadeOut()
     ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                coroutineScope.launch {
-                    ringScale.snapTo(0f)
-                    ringOpacity.snapTo(1f)
-                    imageScale.snapTo(1f)
-                    imageRotation.snapTo(0f)
-                    orbOffset.snapTo(0f)
-                    orbScale.snapTo(0f)
-                    color.value = Color.Gray
-                }
-
-
-            }) {
-                Text(text = "Reset Animation!")
+            val offsetEven = with(LocalDensity.current) {
+                orbOffset.value.toDp()
             }
-            Spacer(modifier = Modifier.height(28.dp))
-            Column(
-                Modifier
-                    .clickable {
-                        coroutineScope.launch {
-                            orbOffset.animateTo(0f)
-                            ringOpacity.animateTo(1f)
-                            ringScale.animateTo(0f)
-                            imageScale.animateTo(0.6f, tween(500, easing = LinearEasing))
-                            imageRotation.animateTo(-30f, tween(500, easing = LinearEasing))
-                        }
+            val offsetOdd = with(LocalDensity.current) {
+                orbOffset.value.toDp()
+                    .div(1.2.dp)
+            }
 
-                        coroutineScope.launch {
-                            delay(300)
-                            coroutineScope.launch {
-                                orbOffset.animateTo(orbOffset.value.minus(250f), tween(1000))
-                            }
-                            color.value = Color.Green
-                            coroutineScope.launch {
-                                orbScale.animateTo(1f)
-                                ringScale.animateTo(1f)
-                                imageScale.animateTo(1f)
-                                ringOpacity.animateTo(0f)
-                                imageRotation.animateTo(0f)
-                            }
-                        }
-
-                        coroutineScope.launch {
-                            delay(600)
-                            orbScale.animateTo(0f, tween(1000))
-                        }
-                    }
-                    .padding(4.dp)
-            ) {
-
-                val offsetEven = with(LocalDensity.current) {
-                    orbOffset.value.toDp()
-                }
-                val offsetOdd = with(LocalDensity.current) {
-                    orbOffset.value.toDp()
-                        .div(1.2.dp)
-                }
-
-                Box {
-                    for (item in 0 until 8) {
-                        Canvas(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .rotate(item.times(45f))
-                                .offset(
-                                    x = 0.dp,
-                                    y = (if (item % 2 == 0) offsetEven else offsetOdd.dp)
-                                )
-                                .scale(orbScale.value),
-                            onDraw = {
-                                drawCircle(
-//                                    color = Color.Yellow,
-                                    color = if (item % 2 == 0) Color.Blue else Color.Red,
-                                    alpha = if (item % 2 == 0) 1f else 0.5f,
-                                    radius = if (item % 2 == 0) 150f else 50f
-                                )
-                            })
-                    }
-
-                    Canvas(modifier = Modifier
-                        .size(250.dp)
-                        .align(Alignment.Center)
-                        .scale(ringScale.value), onDraw = {
-                        drawCircle(
-                            color = Color.Gray.copy(alpha = ringOpacity.value),
-                            style = Stroke(width = 8f)
-                        )
-                    })
-
-                    Text(
-                        text = points,
-                        textAlign = TextAlign.Center,
-                        color = color.value,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 50.sp,
+            Box {
+                for (item in 0 until 8) {
+                    Canvas(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .size(150.dp)
-                            .scale(imageScale.value)
-                            .rotate(imageRotation.value)
-                    )
-
+                            .rotate(item.times(45f))
+                            .offset(
+                                x = 0.dp,
+                                y = (if (item % 2 == 0) offsetEven else offsetOdd.dp)
+                            )
+                            .scale(orbScale.value),
+                        onDraw = {
+                            drawCircle(
+                                color = darkYellow,
+//                                    color = if (item % 2 == 0) Color.Blue else Color.Red,
+                                alpha = if (item % 2 == 0) 1f else 0.5f,
+                                radius = if (item % 2 == 0) 150f else 50f
+                            )
+                        })
                 }
+
+                Canvas(modifier = Modifier
+                    .size(250.dp)
+                    .align(Alignment.Center)
+                    .scale(ringScale.value), onDraw = {
+                    drawCircle(
+                        color = darkYellow.copy(alpha = ringOpacity.value),
+                        style = Stroke(width = 8f)
+                    )
+                })
+
+                Text(
+                    text = points,
+                    textAlign = TextAlign.Center,
+                    color = color.value,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 50.sp,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(150.dp)
+                        .scale(textScale.value)
+                        .rotate(textRotation.value)
+                )
+
             }
         }
     }
+
+    coroutineScope.launch {
+        delay(500)
+        coroutineScope.launch {
+            orbOffset.animateTo(0f)
+            ringOpacity.animateTo(1f)
+            ringScale.animateTo(0f)
+            textScale.animateTo(0.6f, tween(500, easing = LinearEasing))
+            textRotation.animateTo(-30f, tween(500, easing = LinearEasing))
+        }
+
+        coroutineScope.launch {
+            delay(300)
+            coroutineScope.launch {
+                orbOffset.animateTo(orbOffset.value.minus(250f), tween(1000))
+            }
+            color.value = Color.Green
+            coroutineScope.launch {
+                orbScale.animateTo(1f)
+                ringScale.animateTo(1f)
+                textScale.animateTo(1f)
+                ringOpacity.animateTo(0f)
+                textRotation.animateTo(0f)
+            }
+        }
+
+        coroutineScope.launch {
+            delay(600)
+            orbScale.animateTo(0f, tween(1000))
+        }
+
+        coroutineScope.launch {
+            delay(2000)
+            show = false
+        }
+    }
+
 }
