@@ -33,7 +33,7 @@ fun drawBallsWithPoints(level: Level) {
             .wrapContentHeight()
             .padding(vertical = 10.dp)
     ) {
-        for (index in 0 until level.trackCount) {
+        for (index in 0 until level.ballPoints.size) {
             Spacer(modifier = Modifier.width(10.dp))
             Box(
                 modifier = Modifier
@@ -44,7 +44,7 @@ fun drawBallsWithPoints(level: Level) {
                     )
             ) {
                 Text(
-                    text = "10",
+                    text = "${level.ballPoints[index]}",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -74,14 +74,16 @@ fun drawHearts(level: Level) {
             .fillMaxHeight()
             .padding(all = 10.dp)
     ) {
-        for (index in 0 until level.livesArray.size) {
+        var tempLifeRemaining = level.livesRemaining
+        for (index in 0 until level.livesAllotted) {
+            tempLifeRemaining--
             Spacer(modifier = Modifier.width(5.dp))
             Icon(
                 painter = painterResource("heart.xml"),
                 contentDescription = null,
-                tint = if (level.livesArray[index]) Color.Red else Color.Gray,
+                tint = if (tempLifeRemaining >= 0) Color.Red else Color.Gray,
                 modifier = Modifier
-                    .scale(if (level.livesArray[index]) pulsate else 1f)
+                    .scale(if (tempLifeRemaining >= 0) pulsate else 1f)
                     .size(24.dp)
             )
             Spacer(modifier = Modifier.width(5.dp))
@@ -204,7 +206,7 @@ fun drawRoller(
     destY: Float,
     rollerStarted: MutableState<Boolean>,
     rollerStopped: MutableState<Boolean>,
-    gameState: MutableState<State>,
+    levelState: MutableState<Int>,
     angles: List<Animatable<Float, AnimationVector1D>>
 ) {
 
@@ -232,8 +234,8 @@ fun drawRoller(
                 translationX = previousX
                 translationY = previousY
                 if (previousX == destX && previousY == destY) {
-                    // You Win, as roller has reached destination without collision
-                    stopAllAnimations(angles, rollerStopped, gameState, State.Win, 0)
+                    // You missed the chance, as roller has reached destination without collision
+                    stopAllAnimations(angles, rollerStopped, levelState, 0, 0)
                 }
             }
             .background(
@@ -248,7 +250,7 @@ fun drawStartButton(
     level: Level,
     rollerStarted: MutableState<Boolean>,
     rollerStopped: MutableState<Boolean>,
-    gameState: MutableState<State>,
+    levelState: MutableState<Int>,
     angles: List<Animatable<Float, AnimationVector1D>>
 ) {
     var buttonEnabled = remember { mutableStateOf(false) }
@@ -266,7 +268,7 @@ fun drawStartButton(
                 // disable button after click
                 buttonEnabled.value = false
                 // To calculate if roller touches the revolving balls, if true, stop roller and balls
-                fireTheRoller(level.trackCount, angles, rollerStarted, rollerStopped, gameState)
+                fireTheRoller(level, angles, rollerStarted, rollerStopped, levelState)
             })
         {
             Text(text = "Start")

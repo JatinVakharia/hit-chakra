@@ -62,7 +62,7 @@ fun clearData() {
 @Composable
 fun BallsRevolving(
     level: Level,
-    gameState: MutableState<State>,
+    levelState: MutableState<Int>,
     screenWidthDp: Int,
     screenHeightDp: Int
 ) {
@@ -160,7 +160,7 @@ fun BallsRevolving(
             rollerDestY,
             rollerStarted,
             rollerStopped,
-            gameState,
+            levelState,
             angles
         )
 
@@ -168,7 +168,7 @@ fun BallsRevolving(
             level = level,
             rollerStarted,
             rollerStopped,
-            gameState,
+            levelState,
             angles
         )
     }
@@ -231,11 +231,11 @@ fun calculateAngleCoveredForEachTrackByRoller(
 }
 
 fun fireTheRoller(
-    trackCount: Int,
+    level: Level,
     angles: List<Animatable<Float, AnimationVector1D>>,
     rollerStarted: MutableState<Boolean>,
     rollerStopped: MutableState<Boolean>,
-    gameState: MutableState<State>
+    levelState: MutableState<Int>
 ) {
     // To start the roller from source to dest
     rollerStarted.value = true
@@ -267,7 +267,7 @@ fun fireTheRoller(
             isCollide = true
             var time: Long = overlapList.first() - currentTime
             logger.debug { "Boom Boom : count : $index" }
-            stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
+            stopAllAnimations(angles, rollerStopped, levelState, level.ballPoints[index], time)
             break
         }
     }
@@ -275,7 +275,7 @@ fun fireTheRoller(
     // traverse forward because first track would collide first to roller (For second half of the tracks)
     if (!isCollide)
         for (index in 0.rangeTo(intersect360TimestampList.lastIndex)) {
-            val timeWhenRollerTouchTrack = currentTime + timeRequiredList[trackCount + index]
+            val timeWhenRollerTouchTrack = currentTime + timeRequiredList[level.trackCount + index]
             val timeWhenRollerLeavesTrack = timeWhenRollerTouchTrack + rollerTimeToCrossTrack
             val intersectTime = intersect360TimestampList[index]
 
@@ -293,7 +293,7 @@ fun fireTheRoller(
             if (overlapList.isNotEmpty()) {
                 var time: Long = overlapList.first() - currentTime
                 logger.debug { "360 Boom Boom : count : $index" }
-                stopAllAnimations(angles, rollerStopped, gameState, State.Loss, time)
+                stopAllAnimations(angles, rollerStopped, levelState, level.ballPoints[index], time)
                 break
             }
         }
@@ -303,8 +303,8 @@ fun fireTheRoller(
 fun stopAllAnimations(
     angles: List<Animatable<Float, AnimationVector1D>>,
     rollerStopped: MutableState<Boolean>,
-    gameState: MutableState<State>,
-    state: State,
+    levelState: MutableState<Int>,
+    state: Int,
     time: Long
 ) {
     GlobalScope.launch() {
@@ -312,7 +312,7 @@ fun stopAllAnimations(
         for (angle in angles)
             angle.stop()
         rollerStopped.value = true
-        gameState.value = state
+        levelState.value = state
     }
 }
 

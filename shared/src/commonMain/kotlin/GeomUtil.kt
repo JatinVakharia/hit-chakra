@@ -4,8 +4,8 @@ import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.sin
 
-enum class State { InProgress, Loss, Win }
-enum class Behaviour { None, Retry, NextLevel }
+enum class State { Playing, Loss, Win, NextAttempt }
+enum class Behaviour { None, Retry, NextLevel, SameLevelNextAttempt }
 
 /**
  * Returns the distance between two points of screen.

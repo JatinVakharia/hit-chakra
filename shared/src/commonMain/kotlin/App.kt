@@ -28,34 +28,63 @@ fun startGame(
     screenWidthInDp = screenWidthDp
     screenHeightInDp = screenHeightDp
     // Handles Win and Loss of game
-    var gameState = remember { mutableStateOf(State.InProgress) }
+    var gameState = remember { mutableStateOf(State.Playing) }
     // Handles next level or try again of game
     var gameBehaviour = remember { mutableStateOf(Behaviour.None) }
+    // Handles state of level by managing lives and points
+    var levelState = remember { mutableStateOf(-1) }
 
     HitChakraTheme (darkTheme = true) {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            BallsRevolving(level, gameState, screenWidthDp, screenHeightDp)
+            BallsRevolving(level, levelState, screenWidthDp, screenHeightDp)
         }
     }
     observeGameState(gameState, gameBehaviour)
-    observeGameBehaviour(gameBehaviour)
+    observeGameBehaviour(level, gameBehaviour)
+    observeLevelState(level, levelState, gameState)
+}
+@Composable
+fun observeLevelState(level: Level, levelState: MutableState<Int>, gameState: MutableState<State>) {
+
+    val stateValue = levelState.value
+    if(stateValue == 0) {
+        // Some animation to highlight that you missed the ball
+        modifyGameState(level, gameState)
+    } else if(stateValue > 0) {
+        PointsAnimation("$stateValue")
+        level.pointsReq -= stateValue
+        modifyGameState(level, gameState)
+    }
+}
+
+private fun modifyGameState(level: Level, gameState: MutableState<State>) {
+    // Reduce a life from current level
+    level.livesRemaining--
+
+    // Todo Jatin Make this condition equal to 0, to harden the level
+    if (level.pointsReq <= 0) {
+        gameState.value = State.Win
+    } else if (level.livesRemaining == 0) {
+        gameState.value = State.Loss
+    } else
+        gameState.value = State.NextAttempt
 }
 
 @Composable
-private fun observeGameBehaviour(gameBehaviour: MutableState<Behaviour>) {
-    if (gameBehaviour.value == Behaviour.Retry) {
+private fun observeGameBehaviour(level: Level, gameBehaviour: MutableState<Behaviour>) {
+    if (gameBehaviour.value == Behaviour.Retry || gameBehaviour.value == Behaviour.NextLevel) {
         startGame(
             levelList[sharedPreferences.getInt("user_level", 0)],
             sharedPreferences,
             screenWidthInDp,
             screenHeightInDp
         )
-    } else if (gameBehaviour.value == Behaviour.NextLevel) {
+    } else if (gameBehaviour.value == Behaviour.SameLevelNextAttempt) {
         startGame(
-            levelList[sharedPreferences.getInt("user_level", 0)],
+            level,
             sharedPreferences,
             screenWidthInDp,
             screenHeightInDp
@@ -80,8 +109,6 @@ private fun observeGameState(
                 actionFunction = { tryAgainSameLevel(gameBehaviour) },
                 ::exitApp
             )
-        // Todo remove : temp testing
-        PointsAnimation("0")
     } else if (gameState.value == State.Win) {
         logger.debug { "You Win" }
         if (dialogState.value)
@@ -91,8 +118,9 @@ private fun observeGameState(
                 actionFunction = { moveToNextLevel(gameBehaviour) },
                 ::exitApp
             )
-        // Todo remove : temp testing
-        PointsAnimation("100")
+    } else if (gameState.value == State.NextAttempt){
+        logger.debug { "Next Attempt" }
+        gameBehaviour.value = Behaviour.SameLevelNextAttempt
     }
 }
 
