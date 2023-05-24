@@ -19,8 +19,9 @@ data class Level(
     val colorArray: List<Color>,
     val livesAllotted: Int,
     var livesRemaining: Int,
-    var pointsReq : Int,
-    val ballPoints : List<Int>
+    val pointsToWin : Int,
+    val ballPoints : List<Int>,
+    var pointsEarned : Int = 0
 )
 
 fun getLevelObjects(): List<Level> {
@@ -35,7 +36,7 @@ fun getLevelObjects(): List<Level> {
             10.dp, 20.dp,
             revolvingBallsRadiusArrayFor4Tracks, trackDiameterFor4Tracks,
             colorArrayFor4Tracks,
-            3, 2,
+            3, 3,
             50,
             listOf(20, 40)
         )
