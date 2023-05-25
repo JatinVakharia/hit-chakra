@@ -5,7 +5,9 @@ import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import theme.Purple700
 import theme.darkYellow
 
 @Composable
@@ -110,18 +113,29 @@ fun PointsAnimation() {
                     )
                 })
 
-                Text(
-                    text = "You Missed",
-                    textAlign = TextAlign.Center,
-                    color = color.value,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 30.sp,
+                Box(contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .align(Alignment.Center)
+                        .wrapContentSize()
                         .size(150.dp)
-                        .scale(textScale.value)
-                        .rotate(textRotation.value)
-                )
+                        .background(
+                            color = darkYellow,
+                            shape = CircleShape
+                        )
+                        .align(Alignment.Center),
+                ) {
+                    Text(
+                        text = "You Missed",
+                        textAlign = TextAlign.Center,
+                        color = color.value,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 30.sp,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(100.dp)
+                            .scale(textScale.value)
+                            .rotate(textRotation.value)
+                    )
+                }
 
             }
         }
