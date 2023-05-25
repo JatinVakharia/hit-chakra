@@ -10,6 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import theme.HitChakraTheme
+import ui.ConfettiCenterView
 import ui.PointsAnimation
 import utils.KMMPreference
 
@@ -54,10 +55,10 @@ fun observeLevelState(level: Level, levelState: MutableState<Int>, gameState: Mu
 
     val stateValue = levelState.value
     if(stateValue == 0) {
-        // Some animation to highlight that you missed the ball
+        PointsAnimation()
         modifyGameState(level, gameState)
     } else if(stateValue > 0) {
-        PointsAnimation("$stateValue")
+        ConfettiCenterView("$stateValue")
         level.pointsEarned += stateValue
         modifyGameState(level, gameState)
     }

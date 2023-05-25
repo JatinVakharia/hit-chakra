@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import theme.darkYellow
 
 @Composable
-fun PointsAnimation(points: String) {
+fun PointsAnimation() {
 
     val ringScale = remember {
         Animatable(0f)
@@ -49,7 +49,7 @@ fun PointsAnimation(points: String) {
     }
 
     val color = remember {
-        mutableStateOf(Color.Gray)
+        mutableStateOf(Color.White)
     }
 
     val coroutineScope = rememberCoroutineScope()
@@ -111,11 +111,11 @@ fun PointsAnimation(points: String) {
                 })
 
                 Text(
-                    text = points,
+                    text = "You Missed",
                     textAlign = TextAlign.Center,
                     color = color.value,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 50.sp,
+                    fontSize = 30.sp,
                     modifier = Modifier
                         .align(Alignment.Center)
                         .size(150.dp)
@@ -128,7 +128,7 @@ fun PointsAnimation(points: String) {
     }
 
     coroutineScope.launch {
-        delay(500)
+//        delay(500)
         coroutineScope.launch {
             orbOffset.animateTo(0f)
             ringOpacity.animateTo(1f)
@@ -142,7 +142,7 @@ fun PointsAnimation(points: String) {
             coroutineScope.launch {
                 orbOffset.animateTo(orbOffset.value.minus(250f), tween(1000))
             }
-            color.value = Color.Green
+            color.value = Color.Black
             coroutineScope.launch {
                 orbScale.animateTo(1f)
                 ringScale.animateTo(1f)
@@ -153,12 +153,12 @@ fun PointsAnimation(points: String) {
         }
 
         coroutineScope.launch {
-            delay(600)
-            orbScale.animateTo(0f, tween(1000))
+            delay(300)
+            orbScale.animateTo(0f, tween(1200))
         }
 
         coroutineScope.launch {
-            delay(2000)
+            delay(1500)
             show = false
         }
     }
