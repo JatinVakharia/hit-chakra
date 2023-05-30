@@ -121,7 +121,6 @@ private fun observeGameState(
 ) {
     // Handles show and hide of dialog
     var dialogState = remember { mutableStateOf(true) }
-    // Todo Jatin Add showDialog functions for Android and iOS
     if (gameState.value == State.Loss) {
         logger.debug { "You Loss" }
         if (dialogState.value)
@@ -129,7 +128,7 @@ private fun observeGameState(
                 openDialogCustom = dialogState,
                 State.Loss,
                 actionFunction = { tryAgainSameLevel(gameBehaviour) },
-                ::exitApp
+                ::watchAds
             )
     } else if (gameState.value == State.Win) {
         logger.debug { "You Win" }
@@ -138,7 +137,7 @@ private fun observeGameState(
                 openDialogCustom = dialogState,
                 State.Win,
                 actionFunction = { moveToNextLevel(gameBehaviour) },
-                ::exitApp
+                ::watchAds
             )
     } else if (gameState.value == State.NextAttempt){
         logger.debug { "Next Attempt" }
@@ -148,6 +147,10 @@ private fun observeGameState(
 
 private fun exitApp() {
 //    finish()
+}
+
+private fun watchAds() {
+//    show rewarded ads video
 }
 
 private fun moveToNextLevel(gameBehaviour: MutableState<Behaviour>) {
