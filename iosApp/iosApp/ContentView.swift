@@ -7,7 +7,13 @@ struct ComposeView: UIViewControllerRepresentable {
         // get screen width and height, to revolve balls in middle of the screen
         let screen = UIScreen.main.bounds
         let screenWidth = Int32(screen.size.width)
-        let screenHeight = Int32(screen.size.height)
+
+        // Getting screenHeight by reducing camera badge and home-button height
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let topHeight = window?.safeAreaInsets.top ?? 0.0
+        let bottomHeight = window?.safeAreaInsets.bottom ?? 0.0
+        let screenHeight = Int32(screen.size.height - topHeight - bottomHeight)
+
         return Main_iosKt.MainViewController(width: screenWidth, height: screenHeight)
     }
 
