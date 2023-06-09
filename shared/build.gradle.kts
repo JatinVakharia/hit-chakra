@@ -42,10 +42,13 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.7.1")
+                api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
                 implementation("com.google.android.gms:play-services-ads:22.1.0")
+                implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+                implementation("com.google.firebase:firebase-analytics-ktx")
+                implementation("com.google.firebase:firebase-crashlytics-ktx")
             }
         }
         val iosX64Main by getting

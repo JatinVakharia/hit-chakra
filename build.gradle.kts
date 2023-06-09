@@ -5,4 +5,6 @@ plugins {
     id("com.android.application").apply(false)
     id("com.android.library").apply(false)
     id("org.jetbrains.compose").apply(false)
+    id("com.google.gms.google-services").version("4.3.15").apply(false)
+    id("com.google.firebase.crashlytics").version("2.9.5").apply(false)
 }
