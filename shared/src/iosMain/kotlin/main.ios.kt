@@ -1,3 +1,4 @@
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.darwin.NSObject
 import utils.KMMPreference
@@ -14,4 +15,8 @@ fun MainViewController(width: Int, height: Int) = ComposeUIViewController {
         width,
         height
     )
+}
+
+actual fun watchAds(gameBehaviour: MutableState<Behaviour>) {
+
 }

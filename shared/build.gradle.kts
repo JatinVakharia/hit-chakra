@@ -45,6 +45,7 @@ kotlin {
                 api("androidx.activity:activity-compose:1.7.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
+                implementation("com.google.android.gms:play-services-ads:22.1.0")
             }
         }
         val iosX64Main by getting

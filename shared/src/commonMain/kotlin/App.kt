@@ -16,11 +16,13 @@ import utils.KMMPreference
 
 val levelList = getLevelObjects()
 private val logger = KotlinLogging.logger {}
-lateinit var sharedPreferences : KMMPreference
-var screenWidthInDp : Int = 0
-var screenHeightInDp : Int = 0
+lateinit var sharedPreferences: KMMPreference
+lateinit var levelObj: Level
+var screenWidthInDp: Int = 0
+var screenHeightInDp: Int = 0
 
 expect fun getPlatformName(): String
+
 @Composable
 fun startGame(
     level: Level,
@@ -28,6 +30,7 @@ fun startGame(
     screenWidthDp: Int,
     screenHeightDp: Int
 ) {
+    levelObj = level
     sharedPreferences = sharedPreference
     screenWidthInDp = screenWidthDp
     screenHeightInDp = screenHeightDp
@@ -38,7 +41,7 @@ fun startGame(
     // Handles state of level by managing lives and points
     var levelState = remember { mutableStateOf(-1) }
 
-    HitChakraTheme (darkTheme = true) {
+    HitChakraTheme(darkTheme = true) {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -50,19 +53,21 @@ fun startGame(
     observeGameBehaviour(level, gameBehaviour)
     observeLevelState(level, levelState, gameState)
 }
+
 @Composable
 fun observeLevelState(level: Level, levelState: MutableState<Int>, gameState: MutableState<State>) {
 
     val stateValue = levelState.value
-    if(stateValue == 0) {
+    if (stateValue == 0) {
         PointsAnimation()
         modifyGameState(level, gameState)
-    } else if(stateValue > 0) {
+    } else if (stateValue > 0) {
         ConfettiCenterView("$stateValue")
         level.pointsEarned += stateValue
         modifyGameState(level, gameState)
     }
 }
+
 @Composable
 private fun modifyGameState(level: Level, gameState: MutableState<State>) {
     rememberCoroutineScope().launch {
@@ -92,6 +97,7 @@ private fun observeGameBehaviour(level: Level, gameBehaviour: MutableState<Behav
                 screenHeightInDp
             )
         }
+
         Behaviour.Retry -> {
             level.livesRemaining = level.livesAllotted
             level.pointsEarned = 0
@@ -102,6 +108,7 @@ private fun observeGameBehaviour(level: Level, gameBehaviour: MutableState<Behav
                 screenHeightInDp
             )
         }
+
         Behaviour.SameLevelNextAttempt -> {
             startGame(
                 level,
@@ -110,6 +117,17 @@ private fun observeGameBehaviour(level: Level, gameBehaviour: MutableState<Behav
                 screenHeightInDp
             )
         }
+
+        Behaviour.AddOneLife -> {
+            level.livesRemaining++
+            startGame(
+                level,
+                sharedPreferences,
+                screenWidthInDp,
+                screenHeightInDp
+            )
+        }
+
         else -> {}
     }
 }
@@ -128,7 +146,7 @@ private fun observeGameState(
                 openDialogCustom = dialogState,
                 State.Loss,
                 actionFunction = { tryAgainSameLevel(gameBehaviour) },
-                ::watchAds
+                { watchAds(gameBehaviour) }
             )
     } else if (gameState.value == State.Win) {
         logger.debug { "You Win" }
@@ -137,9 +155,9 @@ private fun observeGameState(
                 openDialogCustom = dialogState,
                 State.Win,
                 actionFunction = { moveToNextLevel(gameBehaviour) },
-                ::watchAds
+                { watchAds(gameBehaviour) }
             )
-    } else if (gameState.value == State.NextAttempt){
+    } else if (gameState.value == State.NextAttempt) {
         logger.debug { "Next Attempt" }
         gameBehaviour.value = Behaviour.SameLevelNextAttempt
     }
@@ -149,19 +167,22 @@ private fun exitApp() {
 //    finish()
 }
 
-private fun watchAds() {
-//    show rewarded ads video
-}
+expect fun watchAds(gameBehaviour: MutableState<Behaviour>)
 
 private fun moveToNextLevel(gameBehaviour: MutableState<Behaviour>) {
     clearData()
     // Increment level
     val userLevel = sharedPreferences.getInt("user_level", 0)
-    if(userLevel < levelList.size - 1)
+    if (userLevel < levelList.size - 1)
         sharedPreferences.put("user_level", userLevel + 1)
 
     // Move to next level
     gameBehaviour.value = Behaviour.NextLevel
+}
+
+fun addOneLife(gameBehaviour: MutableState<Behaviour>) {
+    // Add one life/attempt to current level
+    gameBehaviour.value = Behaviour.AddOneLife
 }
 
 private fun tryAgainSameLevel(gameBehaviour: MutableState<Behaviour>) {
