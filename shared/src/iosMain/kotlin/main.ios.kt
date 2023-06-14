@@ -4,8 +4,10 @@ import platform.darwin.NSObject
 import utils.KMMPreference
 
 actual fun getPlatformName(): String = "iOS"
+private lateinit var gameBehaviourLocal: MutableState<Behaviour>
 
 fun MainViewController(width: Int, height: Int) = ComposeUIViewController {
+
     // for shared preference
     val sharedPreferences = KMMPreference(NSObject())
 
@@ -18,5 +20,9 @@ fun MainViewController(width: Int, height: Int) = ComposeUIViewController {
 }
 
 actual fun watchAds(gameBehaviour: MutableState<Behaviour>) {
+    gameBehaviourLocal = gameBehaviour
+}
 
+fun addLife(){
+    addOneLife(gameBehaviourLocal)
 }
