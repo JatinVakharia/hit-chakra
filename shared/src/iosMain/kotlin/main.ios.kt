@@ -1,12 +1,16 @@
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.ComposeUIViewController
+import delegate.AdsDelegate
 import platform.darwin.NSObject
 import utils.KMMPreference
 
 actual fun getPlatformName(): String = "iOS"
 private lateinit var gameBehaviourLocal: MutableState<Behaviour>
+private lateinit var adConfigLocal: AdsDelegate
 
-fun MainViewController(width: Int, height: Int) = ComposeUIViewController {
+fun MainViewController(width: Int, height: Int, adConfig: AdsDelegate) = ComposeUIViewController {
+
+    adConfigLocal = adConfig
 
     // for shared preference
     val sharedPreferences = KMMPreference(NSObject())
@@ -21,6 +25,7 @@ fun MainViewController(width: Int, height: Int) = ComposeUIViewController {
 
 actual fun watchAds(gameBehaviour: MutableState<Behaviour>) {
     gameBehaviourLocal = gameBehaviour
+    adConfigLocal.showAd()
 }
 
 fun addLife(){

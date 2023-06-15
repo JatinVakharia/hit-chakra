@@ -6,16 +6,20 @@ import GoogleMobileAds
 
 private var rewardedAd: GADRewardedAd?
 private var uiController: UIViewController?
+private var adConfig: AdConfig?
 
 struct ComposeView: UIViewControllerRepresentable {
+
     func makeUIViewController(context: Context) -> UIViewController {
+
+        adConfig = AdConfig()
 
         // Initialize Firebase SDK.
         FirebaseApp.configure()
 
         // Initialize the Google Mobile Ads SDK.
         GADMobileAds.sharedInstance().start(completionHandler: {_ in
-            loadRewardedAd()
+            adConfig?.loadRewardedAd()
         })
 
         // get screen width and height, to revolve balls in middle of the screen
@@ -31,46 +35,46 @@ struct ComposeView: UIViewControllerRepresentable {
         // Custom Crash to test Crashlytics
         // fatalError("Crash was triggered")
 
-        uiController = Main_iosKt.MainViewController(width: screenWidth, height: screenHeight)
+        uiController = Main_iosKt.MainViewController(width: screenWidth, height: screenHeight, adConfig : adConfig as! AdsDelegate)
 
         return uiController!
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+class AdConfig : AdsDelegate {
 
     func loadRewardedAd() {
-                      let request = GADRequest()
-                      // Todo Change Ad Unit ID to ca-app-pub-1929641051704456/5505495313 in production
-                      GADRewardedAd.load(withAdUnitID:"ca-app-pub-3940256099942544/1712485313",
-                                         request: request,
-                                         completionHandler: { ad, error in
-                        if let error = error {
-                          print("Failed to load rewarded ad with error: \(error.localizedDescription)")
-                          return
-                        }
-                        rewardedAd = ad
-                        print("Rewarded ad loaded.")
-                        showAd()
-              //           rewardedAd?.fullScreenContentDelegate = self
-                      }
-                      )
-                    }
+            let request = GADRequest()
+            // Todo Change Ad Unit ID to ca-app-pub-1929641051704456/5505495313 in production
+            GADRewardedAd.load(withAdUnitID:"ca-app-pub-3940256099942544/1712485313",
+                                 request: request,
+                                 completionHandler: { [weak self] ad, error in
+                if let error = error {
+                  print("Failed to load rewarded ad with error: \(error.localizedDescription)")
+                  return
+                }
+                rewardedAd = ad
+                print("Rewarded ad loaded.")
+              }
+            )
+        }
 
-                        func showAd() {
-                    //             loadRewardedAd()
-                    print("showAd")
-                                if let ad = rewardedAd {
-                                    ad.present(fromRootViewController: uiController!) {
-                                    let reward = ad.adReward
-                                    print("Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
-                                    // TODO: Reward the user.
-                                    Main_iosKt.addLife()
-                                  }
-                                } else {
-                                  print("Ad wasn't ready")
-                                }
-                              }
-
+    func showAd() {
+        loadRewardedAd()
+        print("showAd")
+        if let ad = rewardedAd {
+            ad.present(fromRootViewController: uiController!) {
+            let reward = ad.adReward
+            print("Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
+            // TODO: Reward the user.
+            Main_iosKt.addLife()
+          }
+        } else {
+          print("Ad wasn't ready")
+        }
+    }
 }
 
 struct ContentView: View {
