@@ -7,6 +7,7 @@ import utils.KMMPreference
 actual fun getPlatformName(): String = "iOS"
 private lateinit var gameBehaviourLocal: MutableState<Behaviour>
 private lateinit var adConfigLocal: AdsDelegate
+actual val isDebug = Platform.isDebugBinary
 
 fun MainViewController(width: Int, height: Int, adConfig: AdsDelegate) = ComposeUIViewController {
 

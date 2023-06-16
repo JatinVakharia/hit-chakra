@@ -21,6 +21,7 @@ lateinit var levelObj: Level
 var screenWidthInDp: Int = 0
 var screenHeightInDp: Int = 0
 
+expect val isDebug: Boolean
 expect fun getPlatformName(): String
 
 @Composable

@@ -47,8 +47,8 @@ class AdConfig : AdsDelegate {
 
     func loadRewardedAd() {
             let request = GADRequest()
-            // Todo Change Ad Unit ID to ca-app-pub-1929641051704456/5505495313 in production
-            GADRewardedAd.load(withAdUnitID:"ca-app-pub-3940256099942544/1712485313",
+            let adUnitID = (Main_iosKt.isDebug ? "ca-app-pub-3940256099942544/1712485313" : "ca-app-pub-1929641051704456/5505495313")
+            GADRewardedAd.load(withAdUnitID: adUnitID,
                                  request: request,
                                  completionHandler: { [weak self] ad, error in
                 if let error = error {
@@ -68,7 +68,6 @@ class AdConfig : AdsDelegate {
             ad.present(fromRootViewController: uiController!) {
             let reward = ad.adReward
             print("Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
-            // TODO: Reward the user.
             Main_iosKt.addLife()
           }
         } else {

@@ -9,12 +9,14 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.OnUserEarnedRewardListener
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.hit.common.BuildConfig
 import utils.KMMContext
 import utils.KMMPreference
 
 private var rewardedAd: RewardedAd? = null
 private var mainActivity: Activity? = null
 private const val TAG = "MainActivity"
+actual val isDebug = BuildConfig.DEBUG
 actual fun getPlatformName(): String = "Android"
 
 @Composable
@@ -41,10 +43,10 @@ fun MainView(activity: Activity) {
 
 private fun loadAd(activity: Activity) {
         var adRequest = AdRequest.Builder().build()
-        // Todo change adUnitId at the time of production release :: ca-app-pub-1929641051704456/7259289052
+        val adUnitId = if(isDebug) "ca-app-pub-3940256099942544/5224354917" else "ca-app-pub-1929641051704456/7259289052"
         RewardedAd.load(
                 activity.applicationContext,
-                "ca-app-pub-3940256099942544/5224354917",
+                adUnitId,
                 adRequest,
                 object : RewardedAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
