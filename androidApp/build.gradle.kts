@@ -40,4 +40,12 @@ android {
     kotlin {
         jvmToolchain(11)
     }
+    signingConfigs {
+        create("release") {
+            keyAlias = "hitchakra"
+            keyPassword = "hitchakra@123"
+            storeFile = file("/Users/jatinvakharia/iWork/Personal/EncryptedKeyHitChakra/HitChakraKeyStore.jks")
+            storePassword = "hitchakra@123"
+        }
+    }
 }
