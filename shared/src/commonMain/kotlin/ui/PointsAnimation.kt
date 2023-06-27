@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import theme.Purple700
 import theme.darkYellow
 
 @Composable
@@ -128,7 +127,7 @@ fun PointsAnimation() {
                         textAlign = TextAlign.Center,
                         color = color.value,
                         fontWeight = FontWeight.ExtraBold,
-                        fontSize = 30.sp,
+                        fontSize = 24.sp,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .size(100.dp)
