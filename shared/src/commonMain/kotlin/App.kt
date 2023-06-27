@@ -174,11 +174,16 @@ private fun moveToNextLevel(gameBehaviour: MutableState<Behaviour>) {
     clearData()
     // Increment level
     val userLevel = sharedPreferences.getInt("user_level", 0)
-    if (userLevel < levelList.size - 1)
+    if (userLevel < levelList.size - 1) {
+        // Next Level available, so move to it
         sharedPreferences.put("user_level", userLevel + 1)
+        // Move to next level
+        gameBehaviour.value = Behaviour.NextLevel
+    } else {
+        // Next Level not available, so retry
+        gameBehaviour.value = Behaviour.Retry
+    }
 
-    // Move to next level
-    gameBehaviour.value = Behaviour.NextLevel
 }
 
 fun addOneLife(gameBehaviour: MutableState<Behaviour>) {
