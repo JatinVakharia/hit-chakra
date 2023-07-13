@@ -37,6 +37,7 @@ lateinit var intersect360TimestampList: ArrayList<LongArray>
 lateinit var angleCoveredOfTrackByRoller: ArrayList<Float>
 
 var rollerTimeToCrossTrack: Long = 0
+var SCREEN_HEIGHT_DP: Int = 0
 
 fun initiateData(trackCount: Int) {
     // a condition to protect from reinitialization of variable
@@ -71,23 +72,25 @@ fun BallsRevolving(
     initiateData(level.trackCount)
     logger.debug { "screenWidthDp : ${screenWidthDp}" }
     logger.debug { "screenHeightDp : ${screenHeightDp}" }
+    SCREEN_HEIGHT_DP = screenHeightDp;
     // mobile device density, used to convert dp to pixel
     val density = LocalDensity.current
 
+    val fixedExtraHeightPx = with(density) { fixedExtraHeightDP.roundToPx() }
     val screenWidthPx = with(density) { screenWidthDp.dp.roundToPx() }
     val screenHeightPx = with(density) { screenHeightDp.dp.roundToPx() }
     logger.debug { "screenWidthPx : ${screenWidthPx}" }
     logger.debug { "screenHeightPx : ${screenHeightPx}" }
     // center co-ordinates of screen
     val screenCenterX = screenWidthPx / 2
-    val screenCenterY = screenHeightPx / 2
+    val screenCenterY = (screenHeightPx / 2) + fixedExtraHeightPx
 
     // Source ring position
     val sourceX = screenCenterX
-    val sourceY = 210
-    // Destination ring position
+    val sourceY = 210 + fixedExtraHeightPx
+    // Destination ring position. For now only supporting HalfCross and not FullCross
     val destX = screenCenterX
-    val destY = if (level.crossHalf) screenCenterY else (screenCenterY + (screenCenterY - 300))
+    val destY = if (level.crossHalf) screenCenterY else (screenCenterY + (screenCenterY / 2))
 
     rollerAnimTime = if (level.crossHalf) 2000 else 3500
 

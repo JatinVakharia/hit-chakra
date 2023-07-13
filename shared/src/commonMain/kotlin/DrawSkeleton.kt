@@ -72,7 +72,7 @@ fun drawHeartsAndScore(level: Level) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(start = 20.dp, bottom = 0.dp, end = 0.dp, top = 35.dp)
+            .padding(start = 15.dp, bottom = 0.dp, end = 0.dp, top = 40.dp)
     ) {
         var tempLifeRemaining = level.livesRemaining
         for (index in 0 until level.livesAllotted) {
@@ -95,7 +95,7 @@ fun drawHeartsAndScore(level: Level) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(start = 0.dp, bottom = 0.dp, end = 20.dp, top = 35.dp)
+            .padding(start = 0.dp, bottom = 0.dp, end = 20.dp, top = 40.dp)
     ) {
         Text(
             text = "Score : ",

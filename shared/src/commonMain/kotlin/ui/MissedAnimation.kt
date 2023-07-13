@@ -1,5 +1,6 @@
 package ui
 
+import SCREEN_HEIGHT_DP
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fixedExtraHeightDP
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import theme.darkYellow
@@ -64,14 +66,15 @@ fun MissedAnimation() {
     AnimatedVisibility(
         visible = show,
         enter = fadeIn(),
-        exit = fadeOut()
+        exit = fadeOut(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = SCREEN_HEIGHT_DP.dp / 3 + fixedExtraHeightDP)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
         ) {
 
             val offsetEven = with(LocalDensity.current) {

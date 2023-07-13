@@ -1,3 +1,4 @@
+import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -6,6 +7,8 @@ import kotlin.math.sin
 
 enum class State { Playing, Loss, Win, NextAttempt }
 enum class Behaviour { None, Retry, NextLevel, SameLevelNextAttempt, AddOneLife }
+
+val fixedExtraHeightDP = 70.dp
 
 /**
  * Returns the distance between two points of screen.
