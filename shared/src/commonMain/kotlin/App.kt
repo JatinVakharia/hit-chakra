@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import theme.HitChakraTheme
 import ui.ConfettiCenterView
-import ui.PointsAnimation
+import ui.MissedAnimation
 import utils.KMMPreference
 
 val levelList = getLevelObjects()
@@ -60,7 +60,7 @@ fun observeLevelState(level: Level, levelState: MutableState<Int>, gameState: Mu
 
     val stateValue = levelState.value
     if (stateValue == 0) {
-        PointsAnimation()
+        MissedAnimation()
         modifyGameState(level, gameState)
     } else if (stateValue > 0) {
         ConfettiCenterView("$stateValue")

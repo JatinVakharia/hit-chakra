@@ -24,9 +24,10 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import theme.darkYellow
+import utils.playMissedSound
 
 @Composable
-fun PointsAnimation() {
+fun MissedAnimation() {
 
     val ringScale = remember {
         Animatable(0f)
@@ -174,6 +175,7 @@ fun PointsAnimation() {
             delay(1500)
             show = false
         }
+        playMissedSound()
     }
 
 }
