@@ -53,10 +53,10 @@ fun createDialogContent(
                     )
                     Text(
                         text = if (gameState == State.Win) "Go to next level and check out your limit."
-                        else "Get one by watching ad \n OR \n Retry game",
+                        else "Get one life by watching ad \n\n OR \n\n Retry this level from start",
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .padding(top = 10.dp, start = 25.dp, end = 25.dp)
+                            .padding(top = 15.dp, start = 25.dp, end = 25.dp)
                             .fillMaxWidth(),
                         style = MaterialTheme.typography.body2
                     )

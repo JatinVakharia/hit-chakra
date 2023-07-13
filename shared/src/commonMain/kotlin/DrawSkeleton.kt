@@ -59,7 +59,7 @@ fun drawBallsWithPoints(level: Level) {
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun drawHearts(level: Level) {
+fun drawHeartsAndScore(level: Level) {
     val infiniteTransition = rememberInfiniteTransition()
     val pulsate by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -68,11 +68,11 @@ fun drawHearts(level: Level) {
     )
 
     Row(
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.Top,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(all = 10.dp)
+            .padding(start = 20.dp, bottom = 0.dp, end = 0.dp, top = 35.dp)
     ) {
         var tempLifeRemaining = level.livesRemaining
         for (index in 0 until level.livesAllotted) {
@@ -89,20 +89,50 @@ fun drawHearts(level: Level) {
             Spacer(modifier = Modifier.width(5.dp))
         }
     }
-    val requiredPoints = level.pointsToWin - level.pointsEarned
     Row(
         horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.Top,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(start = 0.dp, bottom = 0.dp, end = 20.dp, top = 35.dp)
+    ) {
+        Text(
+            text = "Score : ",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.Gray
+        )
+        Text(
+            text = "${level.pointsEarned}",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.White
+        )
+        Text(
+            text = "/${level.pointsToWin}",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.Gray
+        )
+    }
+}
+
+@Composable
+fun drawLevelLabel(level: Level) {
+    Row(
+        horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Bottom,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(all = 20.dp)
+            .padding(start = 20.dp, bottom = 20.dp)
     ) {
         Text(
-            text = "Req : #${if(requiredPoints < 0) 0 else requiredPoints}",
+            text = "Level : ${level.level}",
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = Color.White
+            fontSize = 13.sp,
+            color = Color.Gray
         )
     }
 }
@@ -265,6 +295,7 @@ fun drawStartButton(
     ) {
         Button(
             enabled = buttonEnabled.value,
+            shape = CircleShape,
             onClick = {
                 // disable button after click
                 buttonEnabled.value = false

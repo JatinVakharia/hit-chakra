@@ -143,8 +143,11 @@ fun BallsRevolving(
         // draw balls with points
         drawBallsWithPoints(level)
 
-        // draw lives
-        drawHearts(level)
+        // draw lives and current score
+        drawHeartsAndScore(level)
+
+        // draw level label
+        drawLevelLabel(level)
 
         // Draw destination ring to desired co-ordinates
         drawSourceRing(sourceX, sourceY, ringSizeInPx, srcDestRingSize, srcDestRingStroke)
