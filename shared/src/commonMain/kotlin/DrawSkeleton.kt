@@ -37,7 +37,7 @@ fun drawBallsWithPoints(level: Level) {
             Spacer(modifier = Modifier.width(10.dp))
             Box(
                 modifier = Modifier
-                    .size(level.ballSizeInDp)
+                    .size(20.dp)
                     .background(
                         color = level.colorArray[index],
                         shape = CircleShape

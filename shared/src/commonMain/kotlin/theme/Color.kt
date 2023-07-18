@@ -20,8 +20,8 @@ val colorArrayFor8Tracks = listOf<Color>(
     Color(0xFF2196F3),
     Color(0xFFFDD835),
     Color(0xFF4CAF50),
-    Color(0xFF2196F3),
-    Color(0xFF4CAF50),
-    Color(0xFFFF5722),
-    Color(0xFFFDD835)
+    Color(0xFF4DEEEA),
+    Color(0xFFCCFF00),
+    Color(0xFFF000FF),
+    Color(0xFFFF9933)
 )
