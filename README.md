@@ -14,5 +14,8 @@ Game has one roller and many balls. Points are scored by hitting roller to a bal
 by hitting to a ball(using roller) user will get that much points. Once user scores required points in allotted attempts, 
 user wins the game and moves to next level.
 
+Want to give a try over android app?
+https://play.google.com/store/apps/details?id=com.hit.chakra
+
 https://github.com/JatinVakharia/hit-chakra/assets/8295956/4edf30c6-601e-4fef-878f-6b51985b1d08
 
