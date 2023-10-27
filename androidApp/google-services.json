@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948827973353",
+    "project_id": "hit-chakra",
+    "storage_bucket": "hit-chakra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948827973353:android:628a3ebe115e273678b278",
+        "android_client_info": {
+          "package_name": "com.hit.chakra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948827973353-6go8suid2stg0941ffe58ehidtpeleho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHp6U9G42BXh-iqvljM0zLraqnzW0pXV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948827973353-6go8suid2stg0941ffe58ehidtpeleho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
