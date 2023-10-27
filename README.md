@@ -3,7 +3,6 @@
 
 > **Note**
 > Compose Multiplatform for iOS is in Alpha. It may change incompatibly and require manual migration in the future.
-> This project contains maximum common code around 98%, so the impact should not be much, though.
 
 This game is developed using Kotlin Compose-Multiplatform (KMM), supporting both android and iOS. 
 As you can see its code is ~94% written in Kotlin. Yes, even iOS UI-component are created using Kotlin-Compose.
