@@ -6,16 +6,17 @@
 > This project contains maximum common code around 98%, so the impact should not be much, though.
 
 This game is developed using Kotlin Compose-Multiplatform (KMM), supporting both android and iOS. 
-As you can see its code is 94% written in Kotlin. Which means even iOS UI-component are created using Compose.
+As you can see its code is ~94% written in Kotlin. Yes, even iOS UI-component are created using Kotlin-Compose.
 
-How to play this Game?
+How to play this Game?<br />
 In this game, user has to score some points in each level. In every level user will get limited attempts(lives) to score points.
 Game has one roller and many balls. Points are scored by hitting roller to a ball. Every ball carry some points, 
 by hitting to a ball(using roller) user will get that much points. Once user scores required points in allotted attempts, 
 user wins the game and moves to next level.
 
-Want to give a try over android app?
-https://play.google.com/store/apps/details?id=com.hit.chakra
+Want to give it a try? <br />
+Here is beta android app : https://play.google.com/store/apps/details?id=com.hit.chakra
 
-https://github.com/JatinVakharia/hit-chakra/assets/8295956/4edf30c6-601e-4fef-878f-6b51985b1d08
+
+https://github.com/JatinVakharia/hit-chakra/assets/8295956/4e4b2881-22e4-47d2-977f-7d8cc0bd6082
 
