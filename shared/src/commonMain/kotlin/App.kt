@@ -60,10 +60,14 @@ fun observeLevelState(level: Level, levelState: MutableState<Int>, gameState: Mu
 
     val stateValue = levelState.value
     if (stateValue == 0) {
+        // Miss
         MissedAnimation()
+        playMissedSound()
         modifyGameState(level, gameState)
     } else if (stateValue > 0) {
+        // Hit
         ConfettiCenterView("$stateValue")
+        playWinSound()
         level.pointsEarned += stateValue
         modifyGameState(level, gameState)
     }
@@ -169,6 +173,9 @@ private fun exitApp() {
 }
 
 expect fun watchAds(gameBehaviour: MutableState<Behaviour>)
+
+expect fun playMissedSound()
+expect fun playWinSound()
 
 private fun moveToNextLevel(gameBehaviour: MutableState<Behaviour>) {
     clearData()

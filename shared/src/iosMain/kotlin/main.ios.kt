@@ -32,3 +32,11 @@ actual fun watchAds(gameBehaviour: MutableState<Behaviour>) {
 fun addLife(){
     addOneLife(gameBehaviourLocal)
 }
+
+actual fun playMissedSound() {
+
+}
+
+actual fun playWinSound() {
+
+}

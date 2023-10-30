@@ -1,4 +1,5 @@
 import android.app.Activity
+import android.media.MediaPlayer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import utils.KMMPreference
 
 private var rewardedAd: RewardedAd? = null
 private var mainActivity: Activity? = null
+private var mMediaPlayer: MediaPlayer? = null
 private const val TAG = "MainActivity"
 actual val isDebug = BuildConfig.DEBUG
 actual fun getPlatformName(): String = "Android"
@@ -87,4 +89,29 @@ actual fun watchAds(gameBehaviour: MutableState<Behaviour>) {
         Toast.makeText(mainActivity, "Ad wasn't ready!", Toast.LENGTH_LONG).show()
         Firebase.crashlytics.log("The rewarded ad wasn't ready yet.")
     }
+}
+
+actual fun playMissedSound() {
+//    val filename = "missed.wav"
+//    with(mainActivity!!.applicationContext) {
+//        val resourceId = resources.getIdentifier(
+//            filename.substringBefore("."), "raw", "com.hit.common"
+//        )
+//        if (mMediaPlayer == null) {
+//            mMediaPlayer = MediaPlayer.create(mainActivity, resourceId)
+//            mMediaPlayer!!.start()
+//        }
+//    }
+}
+actual fun playWinSound() {
+//    val filename = "win.wav"
+//    with(mainActivity!!.applicationContext) {
+//        val resourceId = resources.getIdentifier(
+//            filename.substringBefore("."), "raw", "com.hit.common"
+//        )
+//        if (mMediaPlayer == null) {
+//            mMediaPlayer = MediaPlayer.create(mainActivity, resourceId)
+//            mMediaPlayer!!.start()
+//        }
+//    }
 }

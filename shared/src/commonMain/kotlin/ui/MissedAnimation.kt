@@ -26,7 +26,6 @@ import fixedExtraHeightDP
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import theme.darkYellow
-import utils.playMissedSound
 
 @Composable
 fun MissedAnimation() {
@@ -88,7 +87,6 @@ fun MissedAnimation() {
             delay(1500)
             show = false
         }
-        playMissedSound()
     }
 
 }
