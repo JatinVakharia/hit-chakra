@@ -27,8 +27,8 @@ android {
         applicationId = "com.hit.chakra"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
-        versionCode = 5
-        versionName = "1.4"
+        versionCode = 6
+        versionName = "1.5"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
